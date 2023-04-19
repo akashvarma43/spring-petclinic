@@ -1,8 +1,11 @@
-node("JDK-11-MVN") {
-  stage("get-code") {
-    sh " git clone https://github.com/spring-projects/spring-petclinic.git && cd spring-petclinic"
-  }
-  stage("build") {
-    sh "mvn package"
-  }
-}
+node ('node1'){
+    stage ('scm'){
+        git 'https://github.com/akashvarma43/spring-petclinic.git'
+    }
+    stage ('build'){
+        sh 'mvn package -DskipTests'
+    }
+    stage ('post build'){
+        archiveArtifacts artifacts: 'target/*.jar'
+    }
+} 
